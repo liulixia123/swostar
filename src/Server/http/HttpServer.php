@@ -31,7 +31,15 @@ class HttpServer extends Server
 	*/
 	public function onRequest(SwooleRequest $swooleRequest,SwooleResponse $swooleResponse)
 	{
-		$swooleResponse->end('hello world swostar');
+		if ($swooleRequest->server['request_uri'] == '/favicon.ico') {
+			$swooleResponse->end('404');
+			return null;
+		}
+		// 初始化http的请求类对象
+		$request = HttpRequest::init($swooleRequest);
+		// $response = HttpResponse::init($swooleResponse);
+		$swooleResponse->end(app('route')->setMethod($request->getMethod())->match($request->getUriPath()));
+		
 	}
 }
 ?>

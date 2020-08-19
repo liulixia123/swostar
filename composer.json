@@ -10,6 +10,9 @@
     "autoload": {
 		"psr-4": {
 			"SwoStar\\": "src/"
-		}
+		},
+        "files":[
+            "src/Support/Helper.php"
+        ]
 	}
 }
