@@ -4,6 +4,6 @@ class Index
 {
 	public function index()
 	{
-		return "this is app app index()";
+		return "this is swostar index index()";
 	}
 }
