@@ -16,7 +16,7 @@ class Rpc
 		Input::info('tcp监听的地址: '.$config['host'].':'.$config['port'] );
 	}
 	public function connect($serv, $fd){
-		dd("超管查房");
+		dd("超管");
 	}
 	public function receive($serv, $fd, $from_id, $data) {
 		$serv->send($fd, 'Swoole: '.$data);

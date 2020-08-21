@@ -14,3 +14,9 @@ if (! function_exists('app')) {
 		return Application::getInstance()->make($abstract);
 	}
 }
+
+function dd($message, $description = null)
+{
+	var_dump($message);
+	die;
+}

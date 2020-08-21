@@ -16,7 +16,7 @@ class HttpServer extends Server
 	}
 	/**
 	* 初始化监听的事件
-	* 六星教育 @shineyork老师
+	* 
 	*/
 	protected function initEvent()
 	{

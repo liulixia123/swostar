@@ -26,12 +26,12 @@ class WebSocketServer extends HttpServer
 	protected function initEvent()
 	{
 		$this->setEvent('sub', [
-		'request' => "onRequest",
-		'open' => 'onOpen',
-		'message' => 'onMessage',
-		'close' => 'onClose'
+			'request' => "onRequest",
+			'open' => 'onOpen',
+			'message' => 'onMessage',
+			'close' => 'onClose'
 		]);
-		}
+	}
 	public function onOpen(SwooleServer $server, $request) {
 		app('route')->setFlag('WebSocket')->setMethod('open')->match($request->server['path_info'], [$server, $request]);
 		// 记录连接信息
