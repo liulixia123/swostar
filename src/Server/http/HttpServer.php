@@ -25,6 +25,17 @@ class HttpServer extends Server
 		]);
 	}
 	/**
+	 * 初始化swoole配置
+	 * @return [type] [description]
+	 */
+	protected function initSetting()
+	{
+		$config = app('config');
+		$this->port = $config->get('server.http.port');
+		$this->host = $config->get('server.http.host');
+		$this->config = $config->get('server.http.swoole');
+	}
+	/**
 	* 设置http回调事件
 	* 
 	* @return [type] [description]

@@ -5,6 +5,8 @@ use SwoStar\Support\Inotify;
 use SwoStar\Console\Input;
 use SwoStar\RPC\Rpc;
 use Swoole\Server as SwooleServer;
+
+use Redis;
 /**
 * 服务的父级类
 */
@@ -95,6 +97,8 @@ abstract class Server
 	protected $config = [
 		'task_worker_num' => 0,
 	];
+
+	protected $flag;
 	/**
 	* 创建服务
 	* 
@@ -104,9 +108,15 @@ abstract class Server
 	* 初始化监听的事件
 	*/
 	protected abstract function initEvent();
-	public function __construct(Application $app)
+
+	protected abstract function initSetting();
+
+	public function __construct(Application $app,$flag = 'http')
 	{
+		$this->flag = $flag;
 		$this->app = $app;
+		// 初始化swoole配置
+		$this->initSetting();
 		// 创建服务
 		$this->createServer();
 		// 设置回调函数
@@ -184,6 +194,8 @@ abstract class Server
 			$this->inotify = new Inotify($this->app->getBasePath(), $this->watchEvent());
 			$this->inotify->start();
 		}
+		// 设置启动事件
+		$this->app->make('event')->trigger('start', [$this, $server]);
 	}
 	public function onManagerStart(SwooleServer $server)
 	{
@@ -200,6 +212,17 @@ abstract class Server
 			'id' => $worker_id,
 			'pid' => $server->worker_id
 		];
+		$this->redis = new Redis;
+		$this->redis->pconnect($this->app->make('config')->get('database.redis.host'), $this->app->make('config')-
+			>get('database.redis.port'));
+	}
+	/**
+	* 
+	* @return Redis
+	*/
+	public function getRedis()
+	{
+		return $this->redis;
 	}
 	public function setWatchFile($watch)
 	{
